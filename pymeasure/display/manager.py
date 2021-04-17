@@ -25,6 +25,7 @@
 import logging
 
 from os.path import basename
+from time import time
 
 from .Qt import QtCore
 from .listeners import Monitor
@@ -113,6 +114,58 @@ class ExperimentQueue(QtCore.QObject):
         return None
 
 
+class ProgressTracker:
+    """
+    TODO: write docstring
+
+    based on EMA from tqdm
+    """
+
+    def __init__(self, alpha=0.3):
+        self.alpha = alpha
+        self.beta = 1 - self.alpha
+        self.time = time()
+        self.start_time = self.time
+        self.progress = 0
+        self.rate_time = 0
+        self.rate_progress = 0
+
+    def update(self, progress):
+        t = time()
+        dt = t - self.time
+        dx = progress - self.progress
+        self.time = t
+        self.progress = progress
+
+        self.rate_time = self.alpha * dt + self.beta * self.rate_time
+        self.rate_progress = self.alpha * dx + self.beta * self.rate_progress
+
+    @property
+    def rate(self):
+        if self.rate_time:
+            return self.rate_progress / self.rate_time
+        else:
+            return 0
+
+    @property
+    def time_left(self):
+        if self.rate:
+            return (100 - self.progress) / self.rate
+        else:
+            return 0
+
+    @property
+    def duration(self):
+        return self.time - self.start_time
+
+    @property
+    def average_rate(self):
+        if self.duration:
+            return self.progress / self.duration
+        else:
+            return 0
+
+
 class Manager(QtCore.QObject):
     """Controls the execution of :class:`.Experiment` classes by implementing
     a queue system in which Experiments are added, removed, executed, or
@@ -137,6 +190,7 @@ class Manager(QtCore.QObject):
         self._worker = None
         self._running_experiment = None
         self._monitor = None
+        self._progress_tracker = None
         self.log_level = log_level
 
         self.plot = plot
@@ -157,6 +211,7 @@ class Manager(QtCore.QObject):
 
     def _update_progress(self, progress):
         if self.is_running():
+            self._progress_tracker.update(progress)
             self._running_experiment.browser_item.setProgress(progress)
 
     def _update_status(self, status):
@@ -219,6 +274,8 @@ class Manager(QtCore.QObject):
                 self._monitor.progress.connect(self._update_progress)
                 self._monitor.status.connect(self._update_status)
                 self._monitor.log.connect(self._update_log)
+
+                self._progress_tracker = ProgressTracker()
 
                 self._monitor.start()
                 self._worker.start()
