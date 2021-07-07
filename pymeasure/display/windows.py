@@ -174,7 +174,7 @@ class ManagedWindow(QtGui.QMainWindow):
         self.x_axis, self.y_axis = x_axis, y_axis
         self._setup_ui()
         self._layout()
-        self.setup_plot(self.plot)
+        self.setup_plot(self.plots)
 
     def _setup_ui(self):
         self.log_widget = LogWidget()
@@ -193,8 +193,8 @@ class ManagedWindow(QtGui.QMainWindow):
         self.abort_button.setEnabled(False)
         self.abort_button.clicked.connect(self.abort)
 
-        self.plot_widget = PlotWidget(self.procedure_class.DATA_COLUMNS, self.x_axis, self.y_axis)
-        self.plot = self.plot_widget.plot
+        self.plot_widget = PlotWidget(self.procedure_class.DATA_COLUMNS, self.x_axis, self.y_axis, plots=2)
+        self.plots = self.plot_widget.plot
 
         self.browser_widget = BrowserWidget(
             self.procedure_class,
@@ -218,7 +218,7 @@ class ManagedWindow(QtGui.QMainWindow):
             parent=self
         )
 
-        self.manager = Manager(self.plot, self.browser, log_level=self.log_level, parent=self)
+        self.manager = Manager(self.plots, self.browser, log_level=self.log_level, parent=self)
         self.manager.abort_returned.connect(self.abort_returned)
         self.manager.queued.connect(self.queued)
         self.manager.running.connect(self.running)
@@ -311,12 +311,14 @@ class ManagedWindow(QtGui.QMainWindow):
             state = item.checkState(0)
             experiment = self.manager.experiments.with_browser_item(item)
             if state == 0:
-                self.plot.removeItem(experiment.curve)
+                for i in range(len(self.plots)):
+                    self.plots[i].removeItem(experiment.curve[i])
             else:
-                experiment.curve.x = self.plot_widget.plot_frame.x_axis
-                experiment.curve.y = self.plot_widget.plot_frame.y_axis
-                experiment.curve.update()
-                self.plot.addItem(experiment.curve)
+                for i in range(len(self.plots)):
+                    experiment.curve[i].x = self.plot_widget.plot_frame[i].x_axis
+                    experiment.curve[i].y = self.plot_widget.plot_frame[i].y_axis
+                    experiment.curve[i].update()
+                    self.plots[i].addItem(experiment.curve[i])
 
     def browser_item_menu(self, position):
         item = self.browser.itemAt(position)
@@ -394,7 +396,8 @@ class ManagedWindow(QtGui.QMainWindow):
                 else:
                     results = Results.load(filename)
                     experiment = self.new_experiment(results)
-                    experiment.curve.update()
+                    for i in range(len(self.plots)):
+                        experiment.curve[i].update()
                     experiment.browser_item.progressbar.setValue(100.)
                     self.manager.load(experiment)
                     log.info('Opened data file %s' % filename)
@@ -438,7 +441,7 @@ class ManagedWindow(QtGui.QMainWindow):
     def new_experiment(self, results, curve=None):
         if curve is None:
             curve = self.new_curve(results)
-        browser_item = BrowserItem(results, curve)
+        browser_item = BrowserItem(results, curve[0])
         return Experiment(results, curve, browser_item)
 
     def set_parameters(self, parameters):
@@ -887,7 +890,7 @@ class ManagedImageWindow(QtGui.QMainWindow):
         .. _PlotItem: http://www.pyqtgraph.org/documentation/graphicsItems/plotitem.html
         """
         pass
-        
+
     def setup_im_plot(self, im_plot):
         """
         This method does nothing by default, but can be overridden by the child
