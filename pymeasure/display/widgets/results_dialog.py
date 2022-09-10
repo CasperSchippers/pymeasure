@@ -49,7 +49,7 @@ class ResultsDialog(QtGui.QFileDialog):
         super().__init__(parent)
         self.columns = columns
         self.x_axis, self.y_axis = x_axis, y_axis
-        self.setOption(QtGui.QFileDialog.DontUseNativeDialog, True)
+        self.setOption(QtGui.QFileDialog.Option.DontUseNativeDialog, True)
         self._setup_ui()
 
     def _setup_ui(self):
@@ -79,7 +79,7 @@ class ResultsDialog(QtGui.QFileDialog):
         self.setMinimumSize(900, 500)
         self.resize(900, 500)
 
-        self.setFileMode(QtGui.QFileDialog.ExistingFiles)
+        self.setFileMode(QtGui.QFileDialog.FileMode.ExistingFiles)
         self.currentChanged.connect(self.update_plot)
 
     def update_plot(self, filename):
@@ -110,4 +110,4 @@ class ResultsDialog(QtGui.QFileDialog):
             for key, param in results.procedure.parameter_objects().items():
                 new_item = QtGui.QTreeWidgetItem([param.name, str(param)])
                 self.preview_param.addTopLevelItem(new_item)
-            self.preview_param.sortItems(0, QtCore.Qt.AscendingOrder)
+            self.preview_param.sortItems(0, QtCore.Qt.SortOrder.AscendingOrder)

@@ -256,7 +256,7 @@ class ManagedWindowBase(QtGui.QMainWindow):
         self.browser_widget.open_button.clicked.connect(self.open_experiment)
         self.browser = self.browser_widget.browser
 
-        self.browser.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.browser.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.browser.customContextMenuRequested.connect(self.browser_item_menu)
         self.browser.itemChanged.connect(self.browser_item_changed)
 
@@ -311,9 +311,10 @@ class ManagedWindowBase(QtGui.QMainWindow):
         if self.inputs_in_scrollarea:
             inputs_scroll = QtGui.QScrollArea()
             inputs_scroll.setWidgetResizable(True)
-            inputs_scroll.setFrameStyle(QtGui.QScrollArea.NoFrame)
+            inputs_scroll.setFrameStyle(QtGui.QScrollArea.Shape.NoFrame)
 
-            self.inputs.setSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+            self.inputs.setSizePolicy(QtGui.QSizePolicy.Policy.Minimum,
+                                      QtGui.QSizePolicy.Policy.Fixed)
             inputs_scroll.setWidget(self.inputs)
             inputs_vbox.addWidget(inputs_scroll, 1)
 
@@ -330,26 +331,26 @@ class ManagedWindowBase(QtGui.QMainWindow):
 
         dock = QtGui.QDockWidget('Input Parameters')
         dock.setWidget(inputs_dock)
-        dock.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, dock)
+        dock.setFeatures(QtGui.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, dock)
 
         if self.use_sequencer:
             sequencer_dock = QtGui.QDockWidget('Sequencer')
             sequencer_dock.setWidget(self.sequencer)
-            sequencer_dock.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
-            self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, sequencer_dock)
+            sequencer_dock.setFeatures(QtGui.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+            self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, sequencer_dock)
 
         if self.use_estimator:
             estimator_dock = QtGui.QDockWidget('Estimator')
             estimator_dock.setWidget(self.estimator)
-            estimator_dock.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
-            self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, estimator_dock)
+            estimator_dock.setFeatures(QtGui.QDockWidget.DockWidgetFeature.NoDockWidgetFeatures)
+            self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, estimator_dock)
 
         self.tabs = QtGui.QTabWidget(self.main)
         for wdg in self.widget_list:
             self.tabs.addTab(wdg, wdg.name)
 
-        splitter = QtGui.QSplitter(QtCore.Qt.Vertical)
+        splitter = QtGui.QSplitter(QtCore.Qt.Orientation.Vertical)
         splitter.addWidget(self.tabs)
         splitter.addWidget(self.browser_widget)
 
@@ -430,17 +431,19 @@ class ManagedWindowBase(QtGui.QMainWindow):
     def remove_experiment(self, experiment):
         reply = QtGui.QMessageBox.question(self, 'Remove Graph',
                                            "Are you sure you want to remove the graph?",
-                                           QtGui.QMessageBox.Yes |
-                                           QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+                                           QtGui.QMessageBox.StandardButton.Yes |
+                                           QtGui.QMessageBox.StandardButton.No,
+                                           QtGui.QMessageBox.StandardButton.No)
+        if reply == QtGui.QMessageBox.StandardButton.Yes:
             self.manager.remove(experiment)
 
     def delete_experiment_data(self, experiment):
         reply = QtGui.QMessageBox.question(self, 'Delete Data',
                                            "Are you sure you want to delete this data file?",
-                                           QtGui.QMessageBox.Yes |
-                                           QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-        if reply == QtGui.QMessageBox.Yes:
+                                           QtGui.QMessageBox.StandardButton.Yes |
+                                           QtGui.QMessageBox.StandardButton.No,
+                                           QtGui.QMessageBox.StandardButton.No)
+        if reply == QtGui.QMessageBox.StandardButton.Yes:
             self.manager.remove(experiment)
             os.unlink(experiment.data_filename)
 
@@ -448,13 +451,13 @@ class ManagedWindowBase(QtGui.QMainWindow):
         root = self.browser.invisibleRootItem()
         for i in range(root.childCount()):
             item = root.child(i)
-            item.setCheckState(0, QtCore.Qt.Checked)
+            item.setCheckState(0, QtCore.Qt.CheckState.Checked)
 
     def hide_experiments(self):
         root = self.browser.invisibleRootItem()
         for i in range(root.childCount()):
             item = root.child(i)
-            item.setCheckState(0, QtCore.Qt.Unchecked)
+            item.setCheckState(0, QtCore.Qt.CheckState.Unchecked)
 
     def clear_experiments(self):
         self.manager.clear()

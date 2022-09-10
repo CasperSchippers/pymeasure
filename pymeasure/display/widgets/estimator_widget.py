@@ -137,7 +137,7 @@ class EstimatorWidget(QtGui.QWidget):
 
             qle = QtGui.QLineEdit(self)
             qle.setEnabled(False)
-            qle.setAlignment(QtCore.Qt.AlignRight)
+            qle.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight)
 
             self.line_edits.append((qlb, qle))
 

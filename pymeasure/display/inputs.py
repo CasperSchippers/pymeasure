@@ -114,7 +114,7 @@ class IntegerInput(Input, QtGui.QSpinBox):
             self.setSingleStep(parameter.step)
             self.setEnabled(True)
         else:
-            self.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+            self.setButtonSymbols(QtGui.QAbstractSpinBox.ButtonSymbols.NoButtons)
 
     def set_parameter(self, parameter):
         # Override from :class:`Input`
@@ -124,9 +124,10 @@ class IntegerInput(Input, QtGui.QSpinBox):
 
     def stepEnabled(self):
         if self.parameter.step:
-            return QtGui.QAbstractSpinBox.StepUpEnabled | QtGui.QAbstractSpinBox.StepDownEnabled
+            return QtGui.QAbstractSpinBox.StepEnabledFlag.StepUpEnabled | \
+                   QtGui.QAbstractSpinBox.StepEnabledFlag.StepDownEnabled
         else:
-            return QtGui.QAbstractSpinBox.StepNone
+            return QtGui.QAbstractSpinBox.StepEnabledFlag.StepNone
 
 
 class BooleanInput(Input, QtGui.QCheckBox):
@@ -211,7 +212,7 @@ class ScientificInput(Input, QtGui.QDoubleSpinBox):
             self.setSingleStep(parameter.step)
             self.setEnabled(True)
         else:
-            self.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+            self.setButtonSymbols(QtGui.QAbstractSpinBox.ButtonSymbols.NoButtons)
 
     def set_parameter(self, parameter):
         # Override from :class:`Input`
@@ -225,7 +226,7 @@ class ScientificInput(Input, QtGui.QDoubleSpinBox):
         self.setDecimals(parameter.decimals)
         self.setMinimum(parameter.minimum)
         self.setMaximum(parameter.maximum)
-        self.validator.setNotation(QtGui.QDoubleValidator.ScientificNotation)
+        self.validator.setNotation(QtGui.QDoubleValidator.Notation.ScientificNotation)
         super().set_parameter(parameter)  # default gets set here, after min/max
 
     def validate(self, text, pos):
@@ -255,6 +256,7 @@ class ScientificInput(Input, QtGui.QDoubleSpinBox):
 
     def stepEnabled(self):
         if self.parameter.step:
-            return QtGui.QAbstractSpinBox.StepUpEnabled | QtGui.QAbstractSpinBox.StepDownEnabled
+            return QtGui.QAbstractSpinBox.StepEnabledFlag.StepUpEnabled | \
+                   QtGui.QAbstractSpinBox.StepEnabledFlag.StepDownEnabled
         else:
-            return QtGui.QAbstractSpinBox.StepNone
+            return QtGui.QAbstractSpinBox.StepEnabledFlag.StepNone
