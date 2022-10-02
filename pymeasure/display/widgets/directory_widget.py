@@ -24,13 +24,13 @@
 
 import logging
 
-from ..Qt import QtCore, QtGui
+from ..Qt import QtCore, QtGui, QtWidgets
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class DirectoryLineEdit(QtGui.QLineEdit):
+class DirectoryLineEdit(QtWidgets.QLineEdit):
     """
     Widget that allows to choose a directory path.
     A completer is implemented for quick completion.
@@ -40,10 +40,10 @@ class DirectoryLineEdit(QtGui.QLineEdit):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
 
-        completer = QtGui.QCompleter(self)
-        completer.setCompletionMode(QtGui.QCompleter.CompletionMode.PopupCompletion)
+        completer = QtWidgets.QCompleter(self)
+        completer.setCompletionMode(QtWidgets.QCompleter.CompletionMode.PopupCompletion)
 
-        model = QtGui.QDirModel(completer)
+        model = QtGui.QFileSystemModel(completer)
         model.setFilter(QtCore.QDir.Filter.Dirs |
                         QtCore.QDir.Filter.Drives |
                         QtCore.QDir.Filter.NoDotAndDotDot |
@@ -54,10 +54,10 @@ class DirectoryLineEdit(QtGui.QLineEdit):
 
         browse_action = QtGui.QAction(self)
         browse_action.setIcon(self.style().standardIcon(
-            getattr(QtGui.QStyle, 'SP_DialogOpenButton')))
+            getattr(QtWidgets.QStyle.StandardPixmap, 'SP_DialogOpenButton')))
         browse_action.triggered.connect(self.browse_triggered)
 
-        self.addAction(browse_action, QtGui.QLineEdit.ActionPosition.TrailingPosition)
+        self.addAction(browse_action, QtWidgets.QLineEdit.ActionPosition.TrailingPosition)
 
     def _get_starting_directory(self):
         current_text = self.text()
@@ -68,7 +68,7 @@ class DirectoryLineEdit(QtGui.QLineEdit):
             return '/'
 
     def browse_triggered(self):
-        path = QtGui.QFileDialog.getExistingDirectory(
+        path = QtWidgets.QFileDialog.getExistingDirectory(
             self, 'Directory', self._get_starting_directory())
         if path != '':
             self.setText(path)
