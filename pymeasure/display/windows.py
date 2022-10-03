@@ -480,7 +480,8 @@ class ManagedWindowBase(QtWidgets.QMainWindow):
                     for curve in experiment.curve_list:
                         if curve:
                             curve.update_data()
-                    experiment.browser_item.progressbar.setValue(100.)
+                    print (experiment.browser_item.progressbar)
+                    experiment.browser_item.progressbar.setValue(100)
                     self.manager.load(experiment)
                     log.info('Opened data file %s' % filename)
 
