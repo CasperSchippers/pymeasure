@@ -430,19 +430,19 @@ class ManagedWindowBase(QtWidgets.QMainWindow):
 
     def remove_experiment(self, experiment):
         reply = QtWidgets.QMessageBox.question(self, 'Remove Graph',
-                                           "Are you sure you want to remove the graph?",
-                                           QtWidgets.QMessageBox.StandardButton.Yes |
-                                           QtWidgets.QMessageBox.StandardButton.No,
-                                           QtWidgets.QMessageBox.StandardButton.No)
+                                               "Are you sure you want to remove the graph?",
+                                               QtWidgets.QMessageBox.StandardButton.Yes |
+                                               QtWidgets.QMessageBox.StandardButton.No,
+                                               QtWidgets.QMessageBox.StandardButton.No)
         if reply == QtWidgets.QMessageBox.StandardButton.Yes:
             self.manager.remove(experiment)
 
     def delete_experiment_data(self, experiment):
         reply = QtWidgets.QMessageBox.question(self, 'Delete Data',
-                                           "Are you sure you want to delete this data file?",
-                                           QtWidgets.QMessageBox.StandardButton.Yes |
-                                           QtWidgets.QMessageBox.StandardButton.No,
-                                           QtWidgets.QMessageBox.StandardButton.No)
+                                               "Are you sure you want to delete this data file?",
+                                               QtWidgets.QMessageBox.StandardButton.Yes |
+                                               QtWidgets.QMessageBox.StandardButton.No,
+                                               QtWidgets.QMessageBox.StandardButton.No)
         if reply == QtWidgets.QMessageBox.StandardButton.Yes:
             self.manager.remove(experiment)
             os.unlink(experiment.data_filename)
