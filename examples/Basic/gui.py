@@ -8,7 +8,7 @@ Run the program by changing to the directory containing this file and calling:
 python gui.py
 
 """
-
+import PySide2
 import sys
 import random
 import tempfile
@@ -63,7 +63,8 @@ class MainWindow(ManagedWindow):
             inputs=['iterations', 'delay', 'seed'],
             displays=['iterations', 'delay', 'seed'],
             x_axis='Iteration',
-            y_axis='Random Number'
+            y_axis='Random Number',
+            directory_input=True
         )
         self.setWindowTitle('GUI Example')
 
