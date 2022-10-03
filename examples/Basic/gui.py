@@ -8,6 +8,7 @@ Run the program by changing to the directory containing this file and calling:
 python gui.py
 
 """
+
 import sys
 import random
 import tempfile
