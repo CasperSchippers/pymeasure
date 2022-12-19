@@ -75,12 +75,12 @@ class KeysightN7776C(Instrument):
                                           get_process=lambda v: v*1e3)
 
     _output_power_dBm = Instrument.control('SOUR0:POW?', 'SOUR0:POW %f dBm',
-                                           """ Floating point value indicating the laser output power
-                                           in dBm.""")
+                                           """ Floating point value indicating the laser output
+                                           power in dBm.""")
 
     _output_power_unit = Instrument.control('SOUR0:POW:UNIT?', 'SOUR0:POW:UNIT %g',
-                                            """ String parameter controlling the power unit used internally
-                                            by the laser.""",
+                                            """ String parameter controlling the power unit used
+                                            internally by the laser.""",
                                             map_values=True,
                                             values={'dBm': 0, 'mW': 1})
 
@@ -103,8 +103,8 @@ class KeysightN7776C(Instrument):
         self._output_power_dBm = new_power
 
     trigger_out = Instrument.control('TRIG0:OUTP?', 'TRIG0:OUTP %s',
-                                     """ Specifies if and at which point in a sweep cycle an output trigger
-                                     is generated and arms the module. """,
+                                     """ Specifies if and at which point in a sweep cycle an output
+                                     trigger is generated and arms the module. """,
                                      validator=strict_discrete_set,
                                      values=['DIS', 'STF', 'SWF', 'SWST'])
 
@@ -158,8 +158,8 @@ class KeysightN7776C(Instrument):
         able to pass a wavelength sweep.""")
 
     sweep_points = Instrument.measurement('sour0:read:points? llog',
-                                          """Returns the number of datapoints that the :READout:DATA?
-                                          command will return.""")
+                                          """Returns the number of datapoints that the
+                                          :READout:DATA? command will return.""")
 
     sweep_state = Instrument.control('sour0:wav:swe?', 'sour0:wav:swe %g',
                                      """ State of the wavelength sweep. Stops, starts, pauses
