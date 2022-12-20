@@ -46,16 +46,16 @@ class SR510(Instrument):
                                )
 
     time_constant = Instrument.control("T1", "T1,%d",
-                                       """A float property that represents the SR510 PRE filter time constant.
-                                          This property can be set.""",
+                                       """A float property that represents the SR510 PRE filter time
+                                       constant. This property can be set.""",
                                        validator=truncated_discrete_set,
                                        values=TIME_CONSTANTS,
                                        map_values=True,
                                        )
 
     sensitivity = Instrument.control("G", "G%d",
-                                     """A float property that represents the SR510 sensitivity value.
-                                        This property can be set.""",
+                                     """A float property that represents the SR510 sensitivity
+                                     value. This property can be set.""",
                                      validator=truncated_discrete_set,
                                      values=SENSITIVITIES,
                                      map_values=True,

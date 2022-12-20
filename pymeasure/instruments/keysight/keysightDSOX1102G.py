@@ -394,7 +394,8 @@ class KeysightDSOX1102G(Instrument):
 
     @property
     def waveform_preamble(self):
-        """ Get preamble information for the selected waveform source as a dict with the following keys:
+        """ Get preamble information for the selected waveform source as a dict with the following
+        keys:
             - "format": byte, word, or ascii (str)
             - "type": normal, peak detect, or average (str)
             - "points": nb of data points transferred (int)

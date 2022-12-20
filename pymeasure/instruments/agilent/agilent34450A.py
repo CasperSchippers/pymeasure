@@ -320,8 +320,8 @@ class Agilent34450A(Instrument):
     ###################
 
     temperature = Instrument.measurement(":READ?",
-                                         """ Reads a temperature measurement in Celsius, based on the
-                                         active :attr:`~.Agilent34450A.mode`. """
+                                         """ Reads a temperature measurement in Celsius, based on
+                                         the active :attr:`~.Agilent34450A.mode`. """
                                          )
 
     #############

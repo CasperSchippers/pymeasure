@@ -216,8 +216,8 @@ class Keithley2450(Instrument, KeithleyBuffer):
     ####################
 
     resistance = Instrument.measurement(":READ?",
-                                        """ Reads the resistance in Ohms, if configured for this reading.
-        """
+                                        """ Reads the resistance in Ohms, if configured for this
+                                        reading. """
                                         )
     resistance_range = Instrument.control(
         ":SENS:RES:RANG?", ":SENS:RES:RANG:AUTO 0;:SENS:RES:RANG %g",
