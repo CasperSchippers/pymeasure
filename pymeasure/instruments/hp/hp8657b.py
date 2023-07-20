@@ -23,7 +23,7 @@
 #
 
 import logging
-from enum import IntEnum
+from enum import Enum
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import strict_discrete_set, strict_range
 
@@ -46,9 +46,9 @@ class HP8657B(Instrument):
             **kwargs,
         )
 
-    class Modulation(IntEnum):
+    class Modulation(int, Enum):
         """
-        IntEnum for the different modulation sources
+        Integer Enum for the different modulation sources
         """
         EXTERNAL = 1
         INT_400HZ = 2

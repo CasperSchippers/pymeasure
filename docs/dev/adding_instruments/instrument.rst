@@ -152,14 +152,15 @@ To cite the `Python documentation <https://docs.python.org/3.11/howto/enum.html>
 
     An Enum is a set of symbolic names bound to unique values. They are similar to global variables, but they offer a more useful :code:`repr()`, grouping, type-safety, and a few other features.
 
-As our signal values are often integers, the most appropriate enum types are :code:`IntEnum` and :code:`IntFlag`.
+An Enum can be combined with a type of value that you want to bind symbolic names to, by multiple inheritance of the type and :code:`Enum` (or :code:`Flag`).
+As our signal values are often integers, the most appropriate combinations are :code:`(int, Enum)` and :code:`(int, Flag)`.
 
-:code:`IntEnum` is the same as :code:`Enum`, but its members are also integers and can be used anywhere that an integer can be used (so their use for composing commands is transparent), but logic/code they appear in is much more legible.
+:code:`(int, Enum)` is the same as :code:`Enum`, but its members are also integers and can be used anywhere that an integer can be used (so their use for composing commands is transparent), but logic/code they appear in is much more legible.
 
 .. doctest::
 
-    >>> from enum import IntEnum
-    >>> class InstrMode(IntEnum):
+    >>> from enum import Enum
+    >>> class InstrMode(int, Enum):
     ...     WAITING = 0x00
     ...     HEATING = 0x01
     ...     COOLING = 0x05
@@ -170,17 +171,17 @@ As our signal values are often integers, the most appropriate enum types are :co
     ...     print('Idle')
     ... else:
     ...     print(current_mode)
-    ...     print(f'Mode value: {current_mode}')
+    ...     print(f'Mode value: {current_mode.value}')
     ...
     InstrMode.HEATING
     Mode value: 1
 
-:code:`IntFlag` has the added benefit that it supports bitwise operators and combinations, and as such is a good fit for status bitmasks or error codes that can represent multiple values:
+:code:`(int, Flag)` has the added benefit that it supports bitwise operators and combinations, and as such is a good fit for status bitmasks or error codes that can represent multiple values:
 
 .. doctest::
 
-    >>> from enum import IntFlag
-    >>> class ErrorCode(IntFlag):
+    >>> from enum import Flag
+    >>> class ErrorCode(int, Flag):
     ...     TEMP_OUT_OF_RANGE = 8
     ...     TEMPSENSOR_FAILURE = 4
     ...     COOLER_FAILURE = 2
@@ -191,7 +192,7 @@ As our signal values are often integers, the most appropriate enum types are :co
     >>> print(ErrorCode(received_from_device))
     ErrorCode.TEMPSENSOR_FAILURE|COOLER_FAILURE|HEATER_FAILURE
 
-:code:`IntFlags` are used by many instruments for the purpose just demonstrated.
+:code:`(int, Flag)` are used by many instruments for the purpose just demonstrated.
 
 The status property could look like this:
 

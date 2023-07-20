@@ -1,6 +1,7 @@
 Upcoming version
 ================
-- Dropped support for Python 3.7, adding support for Python 3.11
+- Dropped support for Python 3.7, adding support for Python 3.11 (@bilderbuchi, @casperschippers, #896)
+- Replaced all inheritances of :code:`(IntEnum)` and :code:`(IntFlag)` by :code:`(int, Enum)` and :code:`(int, Flag)` to retain printing of name rather than value of enums (related to adding support for python 3.11) (@casperschippers, #896)
 
 Deprecated features
 -------------------

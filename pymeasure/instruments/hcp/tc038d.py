@@ -24,7 +24,7 @@
 
 import logging
 
-from enum import IntEnum
+from enum import Enum
 
 from pymeasure.instruments import Instrument
 
@@ -46,7 +46,7 @@ def CRC16(data):
     return [CRC & 0xFF, CRC >> 8]
 
 
-class Functions(IntEnum):
+class Functions(int, Enum):
     R = 0x03
     WRITESINGLE = 0x06
     ECHO = 0x08  # register address has to be 0

@@ -32,11 +32,11 @@ September, 2018
 """
 
 from pymeasure.instruments.temptronic.temptronic_base import ATSBase
-from enum import IntFlag
+from enum import Flag
 
 
-class ECO560ErrorCode(IntFlag):
-    """Error code enums based on ``IntFlag``.
+class ECO560ErrorCode(int, Flag):
+    """Error code enums based on ``Flag``.
 
     Used in conjunction with :attr:`~.error_code`.
 

@@ -24,7 +24,7 @@
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import strict_range
 from time import sleep
-from enum import IntFlag
+from enum import Flag
 
 
 class Thermotron3800(Instrument):
@@ -115,7 +115,7 @@ class Thermotron3800(Instrument):
         if wait:
             sleep(2)
 
-    class Thermotron3800Mode(IntFlag):
+    class Thermotron3800Mode(int, Flag):
         """
         +--------+--------------------------------------+
         | Bit    | Mode                                 |

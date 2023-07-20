@@ -28,7 +28,7 @@ import time
 import re
 import numpy as np
 import pandas as pd
-from enum import IntEnum
+from enum import Enum
 from collections import Counter, namedtuple, OrderedDict
 from pymeasure.instruments.validators import (strict_discrete_set,
                                               strict_range,
@@ -1572,8 +1572,8 @@ class SMUCurrentRanging():
                             fixed_ranges=True)
 
 
-class CustomIntEnum(IntEnum):
-    """Provides additional methods to IntEnum:
+class CustomIntEnum(int, Enum):
+    """Provides additional methods to Enum:
 
     * Conversion to string automatically replaces '_' with ' ' in names
       and converts to title case

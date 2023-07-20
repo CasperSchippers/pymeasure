@@ -24,7 +24,7 @@
 
 import logging
 from time import sleep
-from enum import IntFlag
+from enum import Flag
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import strict_range, truncated_range, strict_discrete_set
 
@@ -33,8 +33,8 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class DPSeriesErrors(IntFlag):
-    """ IntFlag type to decode error register queries. Error codes are as follows:
+class DPSeriesErrors(int, Flag):
+    """ Integer Flag type to decode error register queries. Error codes are as follows:
 
         0: no error
         1: Receive Overflow Error: serial communications had a receiving error.

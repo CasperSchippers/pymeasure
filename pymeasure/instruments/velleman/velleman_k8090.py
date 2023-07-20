@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 #
 
-from enum import IntFlag
+from enum import Flag
 import logging
 
 from pyvisa import VisaIOError
@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class VellemanK8090Switches(IntFlag):
+class VellemanK8090Switches(int, Flag):
     """Use to identify switch channels."""
 
     NONE = 0

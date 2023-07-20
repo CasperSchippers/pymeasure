@@ -70,7 +70,7 @@ def test_temperature():
 
 
 def test_status():
-    """Verify processing the status IntFlag."""
+    """Verify processing the status integer Flag."""
     with expected_protocol(
         CXN,
         [

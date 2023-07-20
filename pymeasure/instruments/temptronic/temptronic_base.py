@@ -45,14 +45,14 @@ from pymeasure.instruments.validators import (strict_discrete_set,
                                               strict_range
                                               )
 
-from enum import IntFlag
+from enum import Flag
 
 log = logging.getLogger(__name__)  # https://docs.python.org/3/howto/logging.html#library-config
 log.addHandler(logging.NullHandler())
 
 
-class TemperatureStatusCode(IntFlag):
-    """Temperature status enums based on ``IntFlag``
+class TemperatureStatusCode(int, Flag):
+    """Temperature status enums based on ``Flag``
 
     Used in conjunction with :attr:`~.temperature_condition_status_code`.
 
@@ -79,8 +79,8 @@ class TemperatureStatusCode(IntFlag):
     NO_STATUS = 0   # bit 0 -- no temperature status indication
 
 
-class ErrorCode(IntFlag):
-    """Error code enums based on ``IntFlag``.
+class ErrorCode(int, Flag):
+    """Error code enums based on ``Flag``.
 
     Used in conjunction with :attr:`~.error_code`.
 

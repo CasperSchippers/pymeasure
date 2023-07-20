@@ -25,7 +25,7 @@
 import ctypes
 import logging
 import math
-from enum import IntFlag
+from enum import Flag
 from pymeasure.instruments.hp.hplegacyinstrument import HPLegacyInstrument, StatusBitsBase
 from pymeasure.instruments.validators import strict_discrete_set, strict_range
 
@@ -155,7 +155,7 @@ class HP3478A(HPLegacyInstrument):
         "fast": "T5",
     }
 
-    class ERRORS(IntFlag):
+    class ERRORS(int, Flag):
         """Enum element for errror bit decoding
         """
         AD_LINK = 32  # AD link error

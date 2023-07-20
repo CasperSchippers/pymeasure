@@ -23,7 +23,7 @@
 #
 
 import logging
-from enum import IntFlag
+from enum import Flag
 
 from pymeasure.instruments import Instrument, validators
 from pyvisa.constants import Parity, StopBits
@@ -87,7 +87,7 @@ class YAR(Instrument):
         self.power_setpoint_values = self.power_range
         self.power_get_process = power_get_process_generator(self.minimum_display_power)
 
-    class Status(IntFlag):
+    class Status(int, Flag):
         EMISSION = 0x1  # emission is fully on
         STARTUP_DELAY = 0x2  # it is in 3 s startup
         HIGH_TEMPERATURE = 1 << 16

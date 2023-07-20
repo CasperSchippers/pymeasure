@@ -31,7 +31,7 @@ from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import strict_range
 from pymeasure.instruments.validators import strict_discrete_set
 
-from enum import IntFlag
+from enum import Flag
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -373,10 +373,10 @@ class EurotestHPP120256(Instrument):
         """
         return super().ask(command, self.query_delay)
 
-    class EurotestHPP120256Status(IntFlag):
+    class EurotestHPP120256Status(int, Flag):
         """
         Auxiliary class create for translating the instrument 16bits_status_string into
-        an Enum_IntFlag that will help to the user to understand such status.
+        an integer Flag that will help to the user to understand such status.
         """
         # Status response from the instrument has to be interpreted as follows:
         #

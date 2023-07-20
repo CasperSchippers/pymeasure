@@ -24,7 +24,7 @@
 
 import logging
 from math import log10
-from enum import Enum, IntFlag
+from enum import Enum, Flag
 from numpy import arange
 from datetime import datetime
 
@@ -60,7 +60,7 @@ class WindowType(StrEnum):
     Uniform = "UNIFORM"
 
 
-class StatusRegister(IntFlag):
+class StatusRegister(int, Flag):
     """Enumeration to represent the Status Register."""
 
     #: Request Service

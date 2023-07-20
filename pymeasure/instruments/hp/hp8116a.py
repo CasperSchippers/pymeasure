@@ -25,7 +25,7 @@
 import logging
 import time
 import numpy as np
-from enum import Enum, IntFlag
+from enum import Enum, Flag
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import (
     strict_discrete_set, strict_range, truncated_discrete_set
@@ -35,8 +35,8 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class Status(IntFlag):
-    """ IntFlag type for the GPIB status byte which is returned by the :py:attr:`status` property.
+class Status(int, Flag):
+    """ Flag type for the GPIB status byte which is returned by the :py:attr:`status` property.
     When the timing_error or programming_error flag is set, a more detailed error description
     can be obtained by calling :py:method:`check_errors()`.
     """
@@ -481,7 +481,7 @@ class HP8116A(Instrument):
 
     @property
     def status(self):
-        """ Returns the status byte of the 8116A as an IntFlag-type enum. """
+        """ Returns the status byte of the 8116A as an integer Flag-type enum. """
         return Status(self.adapter.connection.read_stb())
 
     @property

@@ -26,7 +26,7 @@
 import logging
 from time import sleep, time
 import numpy
-from enum import IntFlag
+from enum import Flag
 
 from pymeasure.instruments import Instrument
 from pymeasure.instruments.validators import strict_discrete_set, \
@@ -96,8 +96,8 @@ class ITC503(OxfordInstrumentsBase):
 
         self.temperature_setpoint_values = [min_temperature, max_temperature]
 
-    class FLOW_CONTROL_STATUS(IntFlag):
-        """ IntFlag class for decoding the flow control status. Contains the following
+    class FLOW_CONTROL_STATUS(int, Flag):
+        """ Integer Flag class for decoding the flow control status. Contains the following
         flags:
 
         === ======================  ==============================================
@@ -408,7 +408,7 @@ class ITC503(OxfordInstrumentsBase):
         "m",
         """ A property that reads the gas-flow control status. Returns
         the status in the form of a :class:`ITC503.FLOW_CONTROL_STATUS`
-        IntFlag. """,
+        integer Flag. """,
         cast=int,
         get_process=lambda v: ITC503.FLOW_CONTROL_STATUS(v),
     )

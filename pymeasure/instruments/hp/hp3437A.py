@@ -25,7 +25,7 @@
 import ctypes
 import logging
 import math
-from enum import IntFlag
+from enum import Flag
 import numpy as np
 from pymeasure.instruments.hp.hplegacyinstrument import HPLegacyInstrument, StatusBitsBase
 
@@ -195,7 +195,7 @@ class HP3437A(HPLegacyInstrument):
         "manual": "T3",
     }
 
-    class SRQ(IntFlag):
+    class SRQ(int, Flag):
         """Enum element for SRQ mask bit decoding"""
 
         DATA_READY = 4

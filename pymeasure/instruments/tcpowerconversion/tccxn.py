@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 #
 
-import enum
+from enum import Flag
 import struct
 
 from pymeasure.instruments.validators import strict_discrete_set
@@ -223,8 +223,8 @@ class CXN(Instrument):
         super().write_bytes(fullcmd + self._checksum(fullcmd))
         self._check_acknowledgment()
 
-    class Status(enum.IntFlag):
-        """IntFlag type used to represent the CXN status.
+    class Status(int, Flag):
+        """Integer Flag type used to represent the CXN status.
 
         The used bits correspond to:
         bit 14: Analog interface enabled,
@@ -290,7 +290,7 @@ class CXN(Instrument):
 
     status = Instrument.measurement(
         "GS\x00\x00\x00\x00",
-        """Get status field. The return value is represented by the IntFlag
+        """Get status field. The return value is represented by the integer Flag
         type Status.""",
         preprocess_reply=lambda d: struct.unpack(">H", d[:2]),
         get_process=lambda d: CXN.Status(d),

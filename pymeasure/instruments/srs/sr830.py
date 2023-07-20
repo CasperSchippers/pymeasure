@@ -25,14 +25,14 @@
 import re
 import time
 import numpy as np
-from enum import IntFlag
+from enum import Flag
 from pymeasure.instruments import Instrument, discreteTruncate
 from pymeasure.instruments.validators import strict_discrete_set, \
     truncated_discrete_set, truncated_range
 
 
-class LIAStatus(IntFlag):
-    """ IntFlag type that is returned by the lia_status property.
+class LIAStatus(int, Flag):
+    """ Integer Flag type that is returned by the lia_status property.
     """
     NO_ERROR = 0
     INPUT_OVERLOAD = 1
@@ -45,8 +45,8 @@ class LIAStatus(IntFlag):
     UNUSED = 128
 
 
-class ERRStatus(IntFlag):
-    """ IntFlag type that is returned by the err_status property.
+class ERRStatus(int, Flag):
+    """ Integer Flag type that is returned by the err_status property.
     """
     NO_ERROR = 0
     BACKUP_ERR = 2
@@ -147,7 +147,7 @@ class SR830(Instrument):
 
     err_status = Instrument.measurement(
         "ERRS?",
-        """Reads the value of the lockin error (ERR) status byte. Returns an IntFlag type with
+        """Reads the value of the lockin error (ERR) status byte. Returns an integer Flag type with
         positions within the string corresponding to different error flags:
 
         +----+--------------------------------------+

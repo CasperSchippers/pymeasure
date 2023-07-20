@@ -22,7 +22,7 @@
 #
 
 import logging
-from enum import IntEnum, IntFlag
+from enum import Enum, Flag
 from pymeasure.instruments import Instrument, Channel
 from pymeasure.instruments.validators import truncated_range, strict_discrete_set, \
     strict_range
@@ -32,7 +32,7 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class SampleHold(IntEnum):
+class SampleHold(int, Enum):
     MODE_0 = 0
     MODE_100uS = 6
     MODE_200uS = 7
@@ -48,7 +48,7 @@ class SampleHold(IntEnum):
     MODE_20PLC = 17
 
 
-class SampleMode(IntEnum):
+class SampleMode(int, Enum):
     ASYNC = 1  # Asynchronous operation
     PULSED_SYNC = 2  # Synchronous operation of DC measurement and pulse measurement
     PULSED_POSITIVE = 3  # Positive tracking operation for DC measurement and pulse measurement
@@ -60,7 +60,7 @@ class SampleMode(IntEnum):
     LINEAR_SEARCH = 9  # Linear search
 
 
-class VoltageRange(IntEnum):
+class VoltageRange(int, Enum):
     # When the integration time is sample hold mode (SH) and between 100 μs to 500 μs, the
     # resolution is as follows.
     #
@@ -97,7 +97,7 @@ class VoltageRange(IntEnum):
     FIXED_200V = 6  # ±1mV resolution
 
 
-class CurrentRange(IntEnum):
+class CurrentRange(int, Enum):
     # When the integration time is sample hold mode (SH) and between 100 μs to 500 μs, the
     # resolution is as follows.
     #
@@ -146,31 +146,31 @@ class CurrentRange(IntEnum):
     FIXED_20A = 13  # ±100μA resolution
 
 
-class SweepMode(IntEnum):
+class SweepMode(int, Enum):
     LINEAR_ONE_WAY_SWEEP = 1
     LOG_ONE_WAY_SWEEP = 2
     LINEAR_ROUND_TRIP_SWEEP = 3
     LOG_ROUND_TRIP_SWEEP = 4
 
 
-class OutputType(IntEnum):
+class OutputType(int, Enum):
     REAL_TIME_OUTPUT = 1  # there is output every time it is measured
     BUFFERING_OUTPUT_ALL = 2  # output all at once after sweeping
     BUFFERING_OUTPUT_SPECIFIED = 3  # After sweeping, only output the specified data
 
 
-class TriggerInputType(IntEnum):
+class TriggerInputType(int, Enum):
     ALL = 1
     SOFTWARE_ONLY = 2
     CHANNELS_ONLY = 3
 
 
-class MeasurementType(IntEnum):
+class MeasurementType(int, Enum):
     MEASURE_DATA = 1
     MEASURE_DATA_AND_OCCURENCE = 2
 
 
-class SequenceInterruptionType(IntEnum):
+class SequenceInterruptionType(int, Enum):
     """ 1.  Release pause state is a valid command only in the
             sequence program pause state. otherwise it is ignored.
 
@@ -188,7 +188,7 @@ class SequenceInterruptionType(IntEnum):
     INTERRUPT_SEQUENCE = 3
 
 
-class DOR(IntFlag):
+class DOR(int, Flag):
     """ bit assigment for the Device Operation Register (DOR):
 
         =========  ==========================
@@ -227,7 +227,7 @@ class DOR(IntFlag):
     SYNCHRONOUS_OPERATION_STATE = 1 << 0
 
 
-class COR(IntFlag):
+class COR(int, Flag):
     """ bit assigment for the Channel Operations Register (COR):
 
         =========  =============================================
@@ -268,7 +268,7 @@ class COR(IntFlag):
     OPERATED_STATE = 1 << 0
 
 
-class SRER(IntFlag):
+class SRER(int, Flag):
     """ bit assigment for the Service Request Enable Register (SRER):
 
         =========  ===========================================================
@@ -302,7 +302,7 @@ class SRER(IntFlag):
     COP = 1 << 7
 
 
-class SESR(IntFlag):
+class SESR(int, Flag):
     """ bit assigment for the Standard Event Status Register (SESR):
 
         =========  ==========================
@@ -335,7 +335,7 @@ class SESR(IntFlag):
     PON = 1 << 7
 
 
-class TriggerOutputSignalTiming(IntFlag):
+class TriggerOutputSignalTiming(int, Flag):
     """ bit assigment for the timing of the trigger output signal
        output from TRIGGER OUT on the rear panel:
 
@@ -864,7 +864,7 @@ class AdvantestR624X(Instrument):
     service_request_enable_register = Instrument.control(
         '*sre?', '*sre %i',
         """ Control the contents of the service request enable register (SRER)
-        in the form of a :class:`SRER` ``IntFlag`` (``*SRE``).
+        in the form of a :class:`SRER` ``int, Flag`` (``*SRE``).
 
         .. note::
             Bits other than the RQS bit are not cleared by serial polling.
@@ -932,7 +932,7 @@ class AdvantestR624X(Instrument):
     event_status_register = Instrument.measurement(
         "*esr?",
         """ Measure the contents of the standard event status register (SESR) in
-        the form of a :class:`SESR` ``IntFlag`` (``*ESR?``).
+        the form of a :class:`SESR` ``int, Flag`` (``*ESR?``).
 
         .. note::
             SESR is cleared after being read.
@@ -945,7 +945,7 @@ class AdvantestR624X(Instrument):
     device_operation_register = Instrument.measurement(
         "doc?",
         """ Measure the contents of the device operations register (DOR)
-        in the form of a :class:`DOR` ``IntFlag`` (``DOC?``).
+        in the form of a :class:`DOR` ``int, Flag`` (``DOC?``).
 
         """,
         values=range(0, 65535),
@@ -1111,7 +1111,7 @@ class SMUChannel(Channel):
         "tot {ch},%d",
         """ Set the timing of the trigger output signal
         output from TRIGGER OUT on the rear panel (``TOT``).
-        the status in the form of a :class:`TriggerOutputSignalTiming` ``IntFlag``.
+        the status in the form of a :class:`TriggerOutputSignalTiming` ``int, Flag``.
 
         :type: :class:`.TriggerOutputSignalTiming`
 
@@ -2006,7 +2006,7 @@ class SMUChannel(Channel):
     operation_register = Channel.measurement(
         "coc_0{ch}?",
         """ Measure the contents of the Channel Operations Register (COR)
-        in the form of a :class:`COR` ``IntFlag`` (``COC?``).
+        in the form of a :class:`COR` ``int, Flag`` (``COC?``).
 
         """,
         values=range(0, 65535),
@@ -2017,7 +2017,7 @@ class SMUChannel(Channel):
         "coe_0{ch}?",
         "coe_0{ch} %d",
         """ Control the settings of the channel operation output enable
-        register (COER) in the form of a :class:`COR` IntFlag ?(``COE?``).
+        register (COER) in the form of a :class:`COR` int, Flag ?(``COE?``).
 
         """,
         validator=strict_range,
