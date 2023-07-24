@@ -447,7 +447,7 @@ class PandasModelByColumn(PandasModelBase):
 
     @property
     def vertical_header(self):
-        header = set([])
+        header = set()
         for r in self.results_list:
             header = header.union(set(r.data.index))
         header = sorted(list(header))

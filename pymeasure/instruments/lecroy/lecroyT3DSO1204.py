@@ -74,7 +74,7 @@ def _trigger_select_num_pars(value):
         elif value[0] == "DROP":
             num_expected_pars = 4
     else:
-        raise ValueError('Number of parameters {} can only be 3, 4, 5'.format(len(value)))
+        raise ValueError(f'Number of parameters {len(value)} can only be 3, 4, 5')
     return num_expected_pars
 
 
@@ -86,18 +86,18 @@ def _trigger_select_validator(value, values, num_pars_finder=_trigger_select_num
     :param num_pars_finder: function to find the number of expected parameters
     """
     if not isinstance(value, tuple):
-        raise ValueError('Input value {} of trigger_select should be a tuple'.format(value))
+        raise ValueError(f'Input value {value} of trigger_select should be a tuple')
     if len(value) < 3 or len(value) > 5:
-        raise ValueError('Number of parameters {} can only be 3, 4, 5'.format(len(value)))
+        raise ValueError(f'Number of parameters {len(value)} can only be 3, 4, 5')
     value = tuple(map(lambda v: v.upper() if isinstance(v, str) else v, value))
     value = list(value)
     value[1] = sanitize_source(value[1])
     value = tuple(value)
     if value[0] not in values.keys():
-        raise ValueError('Value {} not in the discrete set {}'.format(value[0], values.keys()))
+        raise ValueError(f'Value {value[0]} not in the discrete set {values.keys()}')
     num_expected_pars = num_pars_finder(value)
     if len(value) != num_expected_pars:
-        raise ValueError('Number of parameters {} != {}'.format(len(value), num_expected_pars))
+        raise ValueError(f'Number of parameters {len(value)} != {num_expected_pars}')
     for i, element in enumerate(value[1:], start=1):
         if i < 3:
             strict_discrete_set(element, values=values[value[0]][i - 1])
@@ -136,9 +136,9 @@ def _math_define_validator(value, values):
     :param values: allowed space for each parameter
     """
     if not isinstance(value, tuple):
-        raise ValueError('Input value {} of trigger_select should be a tuple'.format(value))
+        raise ValueError(f'Input value {value} of trigger_select should be a tuple')
     if len(value) != 3:
-        raise ValueError('Number of parameters {} different from 3'.format(len(value)))
+        raise ValueError(f'Number of parameters {len(value)} different from 3')
     output = (sanitize_source(value[0]), value[1], sanitize_source(value[2]))
     for i in range(3):
         strict_discrete_set(output[i], values=values[i])
@@ -152,9 +152,9 @@ def _measure_delay_validator(value, values):
     :param values: allowed space for each parameter
     """
     if not isinstance(value, tuple):
-        raise ValueError('Input value {} of trigger_select should be a tuple'.format(value))
+        raise ValueError(f'Input value {value} of trigger_select should be a tuple')
     if len(value) != 3:
-        raise ValueError('Number of parameters {} different from 3'.format(len(value)))
+        raise ValueError(f'Number of parameters {len(value)} different from 3')
     output = (value[0], sanitize_source(value[1]), sanitize_source(value[2]))
     if output[1][0] > output[2][0]:
         raise ValueError(f'First channel number {output[1]} must be <= than second one {output[2]}')
@@ -168,9 +168,9 @@ def _intensity_validator(value, values):
     :param value: input parameters as a 2-element tuple
     :param values: allowed space for each parameter """
     if not isinstance(value, tuple):
-        raise ValueError('Input value {} of trigger_select should be a tuple'.format(value))
+        raise ValueError(f'Input value {value} of trigger_select should be a tuple')
     if len(value) != 2:
-        raise ValueError('Number of parameters {} different from 2'.format(len(value)))
+        raise ValueError(f'Number of parameters {len(value)} different from 2')
     for i in range(2):
         strict_discrete_range(value=value[i], values=values[i], step=1)
     return value

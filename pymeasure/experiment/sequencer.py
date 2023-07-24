@@ -36,7 +36,7 @@ class SequenceEvaluationError(Exception):
     pass
 
 
-class SequenceItem(object):
+class SequenceItem:
     """ Class representing a sequence row """
     column_map = {
         0: "level",
@@ -170,19 +170,19 @@ class SequenceHandler:
             except SyntaxError:
                 if log_enabled:
                     log.error("SyntaxError, likely unbalanced brackets " +
-                              "for parameter '{}', depth {}".format(name, depth))
+                              f"for parameter '{name}', depth {depth}")
                 raise SequenceEvaluationError("SyntaxError, likely unbalanced brackets")
             except ValueError:
                 if log_enabled:
                     log.error("ValueError, likely wrong function argument " +
-                              "for parameter '{}', depth {}".format(name, depth))
+                              f"for parameter '{name}', depth {depth}")
                 raise SequenceEvaluationError("ValueError, likely wrong function argument")
             except Exception as e:
                 raise SequenceEvaluationError(e)
         else:
             if log_enabled:
                 log.error("No sequence entered for " +
-                          "for parameter '{}', depth {}".format(name, depth))
+                          f"for parameter '{name}', depth {depth}")
             raise SequenceEvaluationError("No sequence entered")
 
         evaluated_string = numpy.array(evaluated_string)

@@ -116,7 +116,7 @@ class SerialAdapter(Adapter):
             Multiple of these transactions will occur.
         """
         # `Serial.readlines()` has an unpredictable timeout, see PR #866
-        data = bytes()
+        data = b''
         while True:
             chunk = self.connection.read(chunk_size, **kwargs)
             data += chunk

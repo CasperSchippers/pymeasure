@@ -791,7 +791,7 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
         self.write("BLANK " + trace)
 
@@ -847,7 +847,7 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
 
         self.write("CLRW " + trace)
@@ -1296,15 +1296,15 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(window))
 
         if source not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            source))
         if destination not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            destination))
         if window not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            window))
-        self.write("FFT %s,%s,%s" % (source, destination, window))
+        self.write(f"FFT {source},{destination},{window}")
 
     frequency_offset = Instrument.control(
         "FOFFSET?", "FOFFSET %.11E",
@@ -1473,7 +1473,7 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
 
         self.write("MINH %s" % trace)
@@ -1863,7 +1863,7 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
 
         self.write("MXMH %s" % trace)
@@ -2062,7 +2062,7 @@ class HP856Xx(Instrument):
             raise ValueError("Only accepts values in the range of %s but was '%s'" %
                              (ran, percent))
 
-        return float(self.ask("PWRBW %s,%.1f?" % (trace, percent)))
+        return float(self.ask(f"PWRBW {trace},{percent:.1f}?"))
 
     resolution_bandwidth = Instrument.control(
         "RB?", "RB %s",
@@ -2197,7 +2197,7 @@ class HP856Xx(Instrument):
             raise ValueError("Only accepts values of [%s] but was '%s'" %
                              (ran, number))
 
-        self.write("RCLT %s,%s" % (trace, number))
+        self.write(f"RCLT {trace},{number}")
 
     def recall_thru(self):
         """Recalls the internally stored thru-reference trace into trace B.
@@ -2357,7 +2357,7 @@ class HP856Xx(Instrument):
             raise ValueError("Only accepts values of [%s] but was '%s'" %
                              (ran, number))
 
-        self.write("SAVET %s,%s" % (trace, number))
+        self.write(f"SAVET {trace},{number}")
 
     serial_number = Instrument.measurement(
         "SER?",
@@ -2706,18 +2706,18 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
 
         if not isinstance(window_mode, str):
             raise TypeError("Should be of type string but is '%s'" % type(window_mode))
 
         if window_mode not in [e for e in WindowType]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in
                                                                             WindowType],
                                                                            window_mode))
 
-        self.write("TWNDOW %s,%s" % (trace, window_mode))
+        self.write(f"TWNDOW {trace},{window_mode}")
 
     video_average = Instrument.control(
         "VAVG?", "VAVG %s",
@@ -2794,7 +2794,7 @@ class HP856Xx(Instrument):
             raise TypeError("Should be of type string but is '%s'" % type(trace))
 
         if trace not in [e for e in Trace]:
-            raise ValueError("Only accepts values of [%s] but was '%s'" % ([e for e in Trace],
+            raise ValueError("Only accepts values of [{}] but was '{}'".format([e for e in Trace],
                                                                            trace))
         self.write("VIEW " + trace)
 

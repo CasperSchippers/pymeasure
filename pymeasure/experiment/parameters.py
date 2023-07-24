@@ -510,7 +510,7 @@ class Measurable:
         self._value = value
 
 
-class Metadata(object):
+class Metadata:
     """ Encapsulates the information for metadata of the experiment with
     information about the name, the fget function and the units, if supplied.
     If no fget function is specified, the value property will return the
