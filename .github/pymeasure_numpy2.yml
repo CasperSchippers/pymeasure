@@ -24,6 +24,6 @@ dependencies:
 #  pip is currently not needed, but the recommended tool when packages that are unavailable on conda are required
   - pip  # don't pin, to gain newest conda compatibility fixes
   - pip:
-      - numpy==2.0.0rc1
+      - numpy==2.0.0rc2
       - pandas==2.2.2
       - git+https://github.com/hgrecco/pint.git#egg=pint
