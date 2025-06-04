@@ -107,18 +107,8 @@ class TestImageGUI(ManagedImageWindow):
             inputs=['X_start', 'X_end', 'X_step', 'Y_start', 'Y_end', 'Y_step',
                     'delay'],
             displays=['X_start', 'X_end', 'Y_start', 'Y_end', 'delay'],
-            filename_input=False,
-            directory_input=False,
         )
         self.setWindowTitle('PyMeasure Image Test')
-
-    def queue(self):
-        direc = '.'
-        filename = unique_filename(direc, 'test')
-        procedure = self.make_procedure()
-        results = Results(procedure, filename)
-        experiment = self.new_experiment(results)
-        self.manager.queue(experiment)
 
 
 if __name__ == "__main__":

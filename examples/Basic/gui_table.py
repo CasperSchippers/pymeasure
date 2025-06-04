@@ -94,22 +94,11 @@ class MainWindow(ManagedWindowBase):
             inputs=['iterations', 'delay', 'seed'],
             displays=['iterations', 'delay', 'seed'],
             widget_list=widget_list,
-            enable_file_input=False,
         )
         logging.getLogger().addHandler(widget_list[1].handler)
         log.setLevel(self.log_level)
         log.info("ManagedWindow connected to logging")
         self.setWindowTitle('GUI Example')
-
-    def queue(self):
-        direc = '.'
-        filename = unique_filename(direc, 'gui_table')
-
-        procedure = self.make_procedure()
-        results = Results(procedure, filename)
-        experiment = self.new_experiment(results)
-
-        self.manager.queue(experiment)
 
 
 if __name__ == "__main__":
