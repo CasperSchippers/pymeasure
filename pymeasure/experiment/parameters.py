@@ -359,7 +359,6 @@ class VectorParameter(Parameter[list[float]]):
         self.units = units
         super().__init__(name, default, units, ui_class, group_name, group_by, group_condition, description)
         self._help_fields.append(('length is', '_length'))
-
     def convert(self, value):
         if isinstance(value, str):
             # strip units if included
